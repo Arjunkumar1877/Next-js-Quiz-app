@@ -8,11 +8,14 @@ export const  GlobalContext = createContext();
 
 export function ContextProvider({ children }) {
     const [allQuizzes, setAllQuizzes] = useState(['my quiz']);
+    const [selectQuizToStart, setSelectQuizToStart] = useState(null);
+
+    console.log(selectQuizToStart)
     useEffect(()=>{
  setAllQuizzes(quizzesData)
     }, [])
 
-    return <GlobalContext.Provider value={{allQuizzes, setAllQuizzes}}>
+    return <GlobalContext.Provider value={{allQuizzes, setAllQuizzes, quizToStartObject: { selectQuizToStart, setSelectQuizToStart }}}>
         {children}
     </GlobalContext.Provider>   
 }

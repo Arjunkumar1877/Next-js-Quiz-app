@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import QuizCard from './QuizCard'
+import QuizCard from '../quiz-start/QuizCard'
 import PlaceHolder from './PlaceHolder';
 import useGlobalContextProvider from '../ContextApi';
 
