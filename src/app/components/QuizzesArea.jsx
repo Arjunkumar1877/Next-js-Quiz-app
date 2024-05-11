@@ -1,9 +1,11 @@
+"use client"
 import React from 'react'
 import QuizCard from './QuizCard'
 import PlaceHolder from './PlaceHolder';
+import useGlobalContextProvider from '../ContextApi';
 
 export default function QuizzesArea() {
-    const allQuizzes = [];
+    const { allQuizzes } = useGlobalContextProvider()
   return (
     <div className='poppins mx-12 mt-10'>
         {
@@ -11,10 +13,13 @@ export default function QuizzesArea() {
 <div className="">
 <h2 className="text-xl font-bold">My Quizzes</h2>
         <div className="mt-6 flex gap-2 flex-wrap">
-            <QuizCard />
-            <QuizCard />
-            <QuizCard />
-            <QuizCard />
+            {
+                allQuizzes.map((singleQuiz, qizIndex)=> (
+                    <div key={qizIndex}>
+                        <QuizCard singleQuiz={singleQuiz} />
+                        </div>
+                ))
+            }
         </div>
 </div>
       )
