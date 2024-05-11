@@ -1,15 +1,16 @@
  "use client"
 import useGlobalContextProvider from "@/app/ContextApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import QuizStartHeader from "../components/QuizStartPage/QuizStartHeader";
 import { QuizStartQuestions } from "../components/QuizStartPage/QuizStartQuestions";
 
 export default function page(prop) {
     const { allQuizzes, quizToStartObject } = useGlobalContextProvider();
     const { selectQuizToStart } = quizToStartObject;
+    const [parentTimer, setParentTimer] = useState(5);
+
     console.log(allQuizzes);
     const router = new useRouter();
 
@@ -17,7 +18,11 @@ export default function page(prop) {
       if(selectQuizToStart === null){
         router.push('/');
       }
-    }, [])
+    }, []);
+
+    function onUpdateTime(currentTime){
+      setParentTimer(currentTime);
+    }
   return (
     <div>
       <div className="poppins flex-col px-24 mt-[35px]">
@@ -34,9 +39,9 @@ export default function page(prop) {
           </div>
         ): (
           <>
-           <QuizStartHeader />
+           <QuizStartHeader parentTimer={parentTimer} />
         <div className="mt-10 flex items-center justify-center">
-          <QuizStartQuestions />
+          <QuizStartQuestions onUpdateTime={onUpdateTime} />
         </div>
           </>
         )

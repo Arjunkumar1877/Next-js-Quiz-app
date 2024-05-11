@@ -4,7 +4,7 @@ import { Fascinate } from 'next/font/google';
 import React from 'react'
 
 
-export default function QuizStartHeader(props) {
+export default function QuizStartHeader({parentTimer}) {
   const { quizToStartObject } = useGlobalContextProvider();
   const { selectQuizToStart } = quizToStartObject;
   console.log(selectQuizToStart)
@@ -19,7 +19,7 @@ export default function QuizStartHeader(props) {
       <div className="flex flex-col gap-1">
         <h2 className="font-bold text-xl">{quizTitle && quizTitle}</h2>
         <span className="font-light text-sm">
-          {quizQuestions?.length} Questions
+          {quizQuestions?.length} Questions b
         </span>
       </div>
      </div>
@@ -30,6 +30,8 @@ export default function QuizStartHeader(props) {
         width={20}
         height={20}
        /> */}
+
+       <span>00:00:{parentTimer}</span>
      </div>
     </div>
   )
