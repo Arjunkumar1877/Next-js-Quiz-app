@@ -26,9 +26,9 @@ export default function RootLayout({ children }) {
        </title>
        </head>
       <body className={poppins.variable}>
-         <header>
+         {/* <header>
           <Navbar />
-         </header>
+         </header> */}
          <ContextProvider>
          <main>{children}</main>
          </ContextProvider>

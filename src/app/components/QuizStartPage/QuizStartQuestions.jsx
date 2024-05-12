@@ -128,7 +128,6 @@ export function QuizStartQuestions({ onUpdateTime }) {
     setAllQuizzes(currentAllQuizzes);
   }
 
-
   function moveToTheNextQuestion() {
     // check that did we  selecte an answer by using the answerResult property if it's still equal to -1
     if (allQuizzes[indexOfQuizSelected].quizQuestions[currentQuestionIndex].answeredResult === -1) {
@@ -199,8 +198,6 @@ export function QuizStartQuestions({ onUpdateTime }) {
     setSelectedChoice(null);
     }, 2000);
   }
-
-
 
   return (
     <div className="poppins relative rounded-sm m-9  w-9/12">
