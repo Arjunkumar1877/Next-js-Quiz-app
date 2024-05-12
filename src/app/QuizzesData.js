@@ -85,7 +85,7 @@ export const quizzesData = [
                 statistics: {
                     totalAttempts: 3,
                     correctAttempts: 2,
-                    incorrectAttepts: 1
+                    incorrectAttempts: 1
                 }
             },
             {

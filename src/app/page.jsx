@@ -13,12 +13,8 @@ export default function Home() {
   setSelectQuizToStart(null);
   }, []);
   return (
-  <div>
-   <header>
-    {/* <Navbar /> */}
-   </header>
+
  <QuizzesArea />
-  </div>
-  
+    
   );
 }
