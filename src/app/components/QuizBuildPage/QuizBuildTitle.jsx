@@ -4,22 +4,27 @@ import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 import React, { useEffect, useRef, useState } from 'react'
 
-export default function QuizBuildTitle({focusProp}) {
+export default function QuizBuildTitle({focusProp, newQuiz, setNewQuiz, onChangeQuizTitle }) {
   const [quizTitle, setQuizTitle] = useState('');
   const {focus, setFocusFirst} = focusProp;
   const quizTitleRef = useRef(null);
 
-  function handleTextInputChange(text){
-    setQuizTitle(text);
+  function handleTextInputChange(text) {
+    setQuizTitle(text)
+    // setNewQuiz({ ...newQuiz, quizTitle: text });
+    // setFocusFirst(text)
+    onChangeQuizTitle(text)
   }
 
+  console.log(focus)
+  
   useEffect(()=>{
     if(focus){
       quizTitleRef.current.focus();
     }
   },[]);
 
-  console.log(focus)
+  // console.log(focus)
   return (
     <div className='p-3 flex justify-between border border-green-700 rounded-md'>
   <div className="flex gap-2">

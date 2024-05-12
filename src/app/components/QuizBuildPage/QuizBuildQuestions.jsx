@@ -1,34 +1,77 @@
 "use client";
-import React, { createRef, forwardRef, useEffect, useRef, useState } from "react";
-import { faCode, faXmark } from "@fortawesome/free-solid-svg-icons";
+import React, {
+  createRef,
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { faXmark, prefix } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { v4 as uuidv4 } from "uuid";
 import toast, { Toaster } from "react-hot-toast";
+import Choices from "./Choices";
 
-export default function QuizBuildQuestions({focusProp}) {
-  const [quizQuestions, setQuizQuestions] = useState([
-    { id: uuidv4(), mainQuestion: "" },
-  ]);
+
+export default function QuizBuildQuestions({ focusProp, quizQuestions, setQuizQuestions }) {
+  const prefixes = ["A", "B", "C", "D"];
+  // const [quizQuestions, setQuizQuestions] = useState([
+  //   {
+  //     id: uuidv4(),
+  //     mainQuestion: "",
+  //     choices: prefixes.slice(0, 2).map((prefix) => prefix + ". "),
+  //     correctAnswer: '',
+  //   },
+  // ]);
 
   const { focus, setFocusFirst } = focusProp;
   const endOfListRef = useRef(null);
   const textAreaRefs = useRef(quizQuestions.map(() => createRef()));
 
-  console.log(focus);
+  // console.log(focus);
+  console.log(quizQuestions);
+
+// Add a new question to the quizQuestions
   function addNewQuestion() {
     setFocusFirst(false);
+
+    // Verifying the question field is empty or not ?
     const lastIndexQuizQuestions = quizQuestions.length - 1;
     if (
       quizQuestions[lastIndexQuizQuestions].mainQuestion.trim(" ").length === 0
     ) {
-      toast.error("Question input is empty");
+      toast.error(`The question ${lastIndexQuizQuestions + 1} is still empty`);
+      textAreaRefs.current[lastIndexQuizQuestions].current.focus();
       return;
     }
-    const newQuestion = { id: uuidv4(), mainQuestion: "" };
+
+    // This code check out if all the previous choices inputs are empty 
+    for(const choice of quizQuestions[lastIndexQuizQuestions].choices){
+      const singleChoice = choice.substring(2);
+      if(singleChoice.trim(' ').length === 0){
+        return toast.error(`Previous ensure that all previous choices are filled out !`);
+      }
+    }
+
+
+    // This code checkes out if the correct answer input is empty 
+    if(quizQuestions[lastIndexQuizQuestions].correctAnswer.length === 0){
+      return toast.error(`Please ensure to fill out the correct answer!`)
+    }
+
+
+    // This code create a new question object and add it to the quiz questions array
+    const newQuestion = {
+      id: uuidv4(),
+      mainQuestion: "",
+      choices: prefixes.slice(0, 2).map((prefix) => prefix + " "),
+      correctAnswer: ''
+    };
     setQuizQuestions([...quizQuestions, newQuestion]);
     textAreaRefs.current = [...textAreaRefs.current, createRef()];
   }
-  console.log(textAreaRefs);
+  // console.log(textAreaRefs);
 
   function deleteQuestion(singleQuestion) {
     const quizQuestionCopy = [...quizQuestions];
@@ -55,11 +98,52 @@ export default function QuizBuildQuestions({focusProp}) {
     setQuizQuestions(updatedQuestions);
   }
 
-  useEffect(() => {
+  function updateTheChoicesArray(text, choiceIndex, questionIndex) {
+    console.log("text", text);
+    console.log("choiceIndex", choiceIndex);
+    console.log("questionIndex", questionIndex);
+
+    const updatedQuestions = quizQuestions.map((question, i) => {
+      if (questionIndex === i) {
+        const updatedChoices = question.choices.map((choice, j) => {
+          if (choiceIndex === j) {
+            return prefixes[j] + ". " + text;
+          } else {
+            return choice;
+          }
+        });
+
+        return { ...question, choices: updatedChoices };
+      }
+
+      return question;
+    });
+
+    setQuizQuestions(updatedQuestions);
+  }
+
+  function updateCorrectAnswer(text, questionIndex){
+    const correctAnswerArray = ['A', 'B', 'C', 'D'];
+    // console.log(correctAnswerArray.indexOf(text));
+    const questionCopy = [ ...quizQuestions];
+    questionCopy[questionIndex].correctAnswer = correctAnswerArray.indexOf(text)
+    setQuizQuestions(questionCopy);
+  }
+
+  useLayoutEffect(() => {
     if (endOfListRef.current) {
-      endOfListRef.current.scrollIntoView({ behavior: "smooth" });
+      console.log(endOfListRef);
+      setTimeout(() => {
+        endOfListRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
-  }, [quizQuestions]);
+  }, [quizQuestions.length]);
+
+  // useEffect(() => {
+  //   if (endOfListRef.current) {
+  //     endOfListRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [quizQuestions]);
 
   console.log(quizQuestions);
 
@@ -78,10 +162,10 @@ export default function QuizBuildQuestions({focusProp}) {
     <div className="p-3 mt-6 flex justify-between border border-green-700 rounded-md">
       <Toaster
         toastOptions={{
-          className: "",
-          duration: 1500,
+          // className: "",
+          // duration: 1500,
           style: {
-            padding: "12px",
+            fontSize: "13px"
           },
         }}
       />
@@ -106,7 +190,17 @@ export default function QuizBuildQuestions({focusProp}) {
                 handleInputChange(questionIndex, e.target.value);
               }}
             />
-            <Choices />
+            <Choices
+              questionIndex={questionIndex} 
+              singleQuestion={singleQuestion}
+              onChangeChoice={(text, choiceIndex, questionIndex) => {
+                updateTheChoicesArray(text, choiceIndex, questionIndex);
+              }}
+              quizQuestions={quizQuestions}
+              setQuizQuestions={setQuizQuestions}
+              value={singleQuestion.choices}
+              prefixes={prefixes}
+            />
             {questionIndex !== 0 && (
               <FontAwesomeIcon
                 onClick={() => {
@@ -118,6 +212,11 @@ export default function QuizBuildQuestions({focusProp}) {
                 className="text-red-600 absolute top-2 right-3 cursor-pointer"
               />
             )}
+
+<CorrectAnswer onChangeCorrectAnswer={(text)=>{
+  updateCorrectAnswer(text, questionIndex)
+}} singleQuestion={singleQuestion} />
+
           </div>
         ))}
 
@@ -137,18 +236,50 @@ export default function QuizBuildQuestions({focusProp}) {
 }
 
 
+function CorrectAnswer({onChangeCorrectAnswer, singleQuestion}){
+  const [correctAnswerInput, setCorrectAnswerInput] = useState('');
+
+  function handleOnChangeInput(text){
+    const upperText = text.toUpperCase();
+
+    for(const choice of singleQuestion.choices){
+      const eachChoice = choice.substring(0, 1);
+      if(eachChoice === upperText || upperText === ""){
+        setCorrectAnswerInput(upperText);
+        onChangeCorrectAnswer(upperText);
+      }
+    }
+    // if(upperText === '' || ['A', 'B', 'C', 'D'].includes(upperText)){
+    //     setCorrectAnswerInput(upperText);
+    //     onChangeCorrectAnswer(upperText);
+    // }
+  }
+
+  return (
+    <div className="flex gap-1 items-center mt-3">
+      <div className="text-[15px]">Correct Answer</div>
+      <div className="border border-gray-200 rounded-md p-1 w-full">
+        <input value={correctAnswerInput} maxLength={1} onChange={(e)=>{
+          handleOnChangeInput(e.target.value);
+        }} className="p-3 outline-none w-full text-[13px]" placeholder="Add the correct answer ..." />
+      </div>
+    </div>
+  )
+}
+
+
 const SingleQuestion = forwardRef((props, ref) => {
   const { questionIndex, value, onChange } = props;
 
   return (
     <div className="w-full">
       <div className="flex items-center gap-3">
-        <div className="flex gap-2 text-[15px] border-gray-200">
+        <div className="flex gap-2 text-[15px] border-gray-300">
           <span>Question</span>
           <span>{questionIndex + 1}</span>
         </div>
         <textarea
-          className="border border-gray-200 rounded-md p-3 ml-3 w-full h-[50px] resize-none text-[13px] outline-none"
+          className="border border-gray-300 rounded-md p-3 ml-3 w-full h-[50px] resize-none text-[13px] outline-none"
           placeholder="Your Question Here..."
           ref={ref}
           value={value}
@@ -160,13 +291,3 @@ const SingleQuestion = forwardRef((props, ref) => {
 });
 
 
-function Choices(){
-  return(
-    <div className="border border-gray-300 flex gap-[39px] items-center mt-3">
-      <div className="text-[15px]">Choices</div>
-      <div className="border border-gray-200 rounded-md p-2 w-full">
-        List Of Choices
-      </div>
-    </div>
-  )
-}

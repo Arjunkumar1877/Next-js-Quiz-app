@@ -11,8 +11,8 @@ function successRate(singleQuiz) {
 
   if (singleQuiz && singleQuiz.quizQuestions) {
     singleQuiz.quizQuestions.forEach((question) => {
-      totalAttempts += question.statistics.totalAttempts;
-      correctQuestions += question.statistics.correctAttempts;
+      totalAttempts += question?.statistics?.totalAttempts;
+      correctQuestions += question?.statistics?.correctAttempts;
     });
 
     successRate = Math.ceil((correctQuestions / totalAttempts) * 100);
