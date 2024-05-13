@@ -30,7 +30,7 @@ export default function QuizBuildQuestions({ focusProp, quizQuestions, setQuizQu
   const textAreaRefs = useRef(quizQuestions.map(() => createRef()));
 
   // console.log(focus);
-  console.log(quizQuestions);
+  // console.log(quizQuestions);
 
 // Add a new question to the quizQuestions
   function addNewQuestion() {
@@ -145,7 +145,7 @@ export default function QuizBuildQuestions({ focusProp, quizQuestions, setQuizQu
   //   }
   // }, [quizQuestions]);
 
-  console.log(quizQuestions);
+  // console.log(quizQuestions);
 
   useEffect(() => {
     // focus the last textArea if it exists
@@ -237,13 +237,14 @@ export default function QuizBuildQuestions({ focusProp, quizQuestions, setQuizQu
 
 
 function CorrectAnswer({onChangeCorrectAnswer, singleQuestion}){
-  const [correctAnswerInput, setCorrectAnswerInput] = useState('');
+  const [correctAnswerInput, setCorrectAnswerInput] = useState(singleQuestion.correctAnswer);
 
+  const prefixes = ['A', 'B', 'C', 'D'];
   function handleOnChangeInput(text){
     const upperText = text.toUpperCase();
-
     for(const choice of singleQuestion.choices){
       const eachChoice = choice.substring(0, 1);
+
       if(eachChoice === upperText || upperText === ""){
         setCorrectAnswerInput(upperText);
         onChangeCorrectAnswer(upperText);
@@ -259,7 +260,7 @@ function CorrectAnswer({onChangeCorrectAnswer, singleQuestion}){
     <div className="flex gap-1 items-center mt-3">
       <div className="text-[15px]">Correct Answer</div>
       <div className="border border-gray-200 rounded-md p-1 w-full">
-        <input value={correctAnswerInput} maxLength={1} onChange={(e)=>{
+        <input value={prefixes[correctAnswerInput]} maxLength={1} onChange={(e)=>{
           handleOnChangeInput(e.target.value);
         }} className="p-3 outline-none w-full text-[13px]" placeholder="Add the correct answer ..." />
       </div>

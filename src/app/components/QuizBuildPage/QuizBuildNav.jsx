@@ -1,3 +1,4 @@
+'use client'
 import useGlobalContextProvider from '@/app/ContextApi'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
@@ -24,7 +25,9 @@ function validateQuizQuestions(quizQuestions){
 
 
 export default function QuizBuildNav({ quizQuestions, newQuiz }) {
-  const { allQuizzes, setAllQuizzes } = useGlobalContextProvider();
+  const { allQuizzes, setAllQuizzes, selectedQuizObject,  dropDownToggleObject } = useGlobalContextProvider();
+  const { dropDownToggle, setDropDownToggle } = dropDownToggleObject;
+  const { selectedQuiz } = selectedQuizObject;
   const router = useRouter();
 
  function addNewQuiz(){
@@ -32,8 +35,7 @@ export default function QuizBuildNav({ quizQuestions, newQuiz }) {
     return toast.error("Please add a name for the Quiz!.");
   }
 
-  setAllQuizzes([...allQuizzes, newQuiz]);
-
+    setAllQuizzes([...allQuizzes, newQuiz]);
   const isValid = validateQuizQuestions(newQuiz.quizQuestions);
   if(isValid.valid === false){
     toast.error(isValid.message);
@@ -55,6 +57,7 @@ export default function QuizBuildNav({ quizQuestions, newQuiz }) {
       </div>
       <button onClick={()=> {
         addNewQuiz();
+        setDropDownToggle(false)
       }} className="p-2 px-4 bg-green-700 rounded-md text-white">
         Save
       </button>

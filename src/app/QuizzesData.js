@@ -1,11 +1,11 @@
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faCode } from '@fortawesome/free-solid-svg-icons'; // Assuming you're using free solid icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons'; // Assuming you're using free solid icons
 
 // ... other imports and component code
 
-{/* <FontAwesomeIcon className="text-white" width={80} height={80} icon={faCode} /> */}
+// {/* <FontAwesomeIcon className="text-white" width={80} height={80} icon={faCode} /> */}
 
-let faCode = "haii"
+
 
 export const quizzesData = [
     {
@@ -67,7 +67,7 @@ export const quizzesData = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         icon: faCode,
         quizTitle: 'React Quiz',
         quizQuestions: [
