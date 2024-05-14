@@ -1,6 +1,9 @@
-import { connectToDb } from "@/app/libs/mongoDB";
-import Quiz from "@/app/models/QuizSchema";
+// import { connectToDb } from "@/app/libs/mongoDB";
+// import Quiz from "@/app/models/QuizSchema";
 import { NextResponse } from "next/server";
+import { connectToDb } from "../../libs/mongoDB";
+import Quiz from "../../models/QuizSchema";
+
 
 export async function POST(request){
     await connectToDb();

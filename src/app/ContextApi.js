@@ -11,21 +11,21 @@ export function ContextProvider({ children }) {
   const defaultUser = {
     id: 1,
     name: "quizUser",
-    isLogged: true,
+    isLogged: "false",
     experience: 0,
   };
   const [allQuizzes, setAllQuizzes] = useState(["my quiz"]);
   const [selectQuizToStart, setSelectQuizToStart] = useState(null);
   const [user, setUser] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saveUserData = localStorage.getItem("user");
-      console.log(saveUserData + "🎉😜🤦‍♂️🤦‍♂️😢")
-      return saveUserData ? JSON.parse(saveUserData) : defaultUser;
-    } else {
-      // Handle server-side rendering (optional)
-      return defaultUser; 
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      return storedUser || null; 
+    } catch (error) {
+      console.error('Error parsing user data from localStorage:', error);
+      return null; 
     }
   });
+  
   const [openIconBox, setOpenIconBox] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState({ faIcon: faQuestion });
   const [dropDownToggle, setDropDownToggle] = useState(false);
@@ -62,41 +62,41 @@ export function ContextProvider({ children }) {
     fetchAllQuizes();
   }, [])
 
-  useEffect(()=>{
-  const fetchUser = async()=>{
-    try {
-      const res = await fetch('http://localhost:3000/api/user', {
-        method: "POST",
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: 'quizUser',
-          isLogged: false,
-          experience: 0
-        })
-      });
+  // useEffect(()=>{
+  // const fetchUser = async()=>{
+  //   try {
+  //     const res = await fetch('http://localhost:3000/api/user', {
+  //       method: "POST",
+  //       headers: {
+  //         'Content-type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         name: 'quizUser',
+  //         isLogged: false,
+  //         experience: 0
+  //       })
+  //     });
 
-      if(!res.ok){
-        toast.error('Something went wrong...');
-        throw new Error('fetching failed...');
-      }
+  //     if(!res.ok){
+  //       toast.error('Something went wrong...');
+  //       throw new Error('fetching failed...');
+  //     }
 
-      const userData = await res.json();
-      console.log(userData);
+  //     const userData = await res.json();
+  //     console.log(userData);
 
-      if(userData.message === 'User already exists'){
-        setUser(userData.user);
-      }else{
-        setUser(userData.user);
-      }
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
+  //     if(userData.message === 'User already exists'){
+  //       setUser(userData.user);
+  //     }else{
+  //       setUser(userData.user);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message)
+  //   }
+  // }
 
-  fetchUser();
-  },[])
+  // fetchUser();
+  // },[])
 
   console.log(allQuizzes)
 

@@ -1,4 +1,5 @@
-import useGlobalContextProvider from '@/app/ContextApi'
+// import useGlobalContextProvider from '@/app/ContextApi'
+import useGlobalContextProvider from '../../ContextApi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCode, faTimes } from '@fortawesome/free-solid-svg-icons';
 import React from 'react'

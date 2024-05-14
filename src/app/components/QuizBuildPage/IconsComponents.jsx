@@ -1,7 +1,8 @@
 
 'use client'
-import useGlobalContextProvider from "@/app/ContextApi";
-import { iconsData } from "@/app/iconsData";
+// import useGlobalContextProvider from "@/app/ContextApi";
+import useGlobalContextProvider from "../../ContextApi";
+import { iconsData } from "../../iconsData";
 import { useState } from "react";
 const { faClose, faCode } = require("@fortawesome/free-solid-svg-icons");
 const { FontAwesomeIcon } = require("@fortawesome/react-fontawesome");

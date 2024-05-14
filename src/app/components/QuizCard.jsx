@@ -8,23 +8,23 @@ import { convertToFaIcons } from "../convertToFalcons";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-function successRate(singleQuiz) {
-  let correctQuestions = 0;
-  let totalAttempts = 0;
-  let successRate = 0;
+// function successRate(singleQuiz) {
+//   let correctQuestions = 0;
+//   let totalAttempts = 0;
+//   let successRate = 0;
 
-  if (singleQuiz && singleQuiz.quizQuestions) {
-    singleQuiz.quizQuestions.forEach((question) => {
-      totalAttempts += question?.statistics?.totalAttempts;
-      correctQuestions += question?.statistics?.correctAttempts;
-    });
+//   if (singleQuiz && singleQuiz.quizQuestions) {
+//     singleQuiz.quizQuestions.forEach((question) => {
+//       totalAttempts += question?.statistics?.totalAttempts;
+//       correctQuestions += question?.statistics?.correctAttempts;
+//     });
 
-    successRate = Math.ceil((correctQuestions / totalAttempts) * 100);
-    return successRate;
-  } else {
-    console.error("singleQuiz or quizQuestions is undefined.");
-  }
-}
+//     successRate = Math.ceil((correctQuestions / totalAttempts) * 100);
+//     return successRate;
+//   } else {
+//     console.error("singleQuiz or quizQuestions is undefined.");
+//   }
+// }
 
 export default function QuizCard({ singleQuiz }) {
   console.log(singleQuiz.icon)
@@ -37,7 +37,7 @@ export default function QuizCard({ singleQuiz }) {
   const { quizTitle, quizQuestions, icon } = singleQuiz;
   const totalQuestions = quizQuestions?.length;
   // console.log(totalQuestions);
-  const globalSuccessRate = successRate(singleQuiz);
+  // const globalSuccessRate = successRate(singleQuiz);
 
   // console.log(singleQuiz);
 
@@ -69,10 +69,7 @@ export default function QuizCard({ singleQuiz }) {
         {totalQuestions} question (s)
       </p>
       <div className="flex gap-3">
-        {/* <Image src={"./"}  width={20} height={10} alt=""  /> */}
-        <span className="text-[12px] text-slate-950">
-          Success rate: {globalSuccessRate} %
-        </span>
+ 
      
       <Link href={"/quiz-start"}  onClick={() => {
               setSelectQuizToStart(singleQuiz);

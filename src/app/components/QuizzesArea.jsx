@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import QuizCard from "./QuizCard";
 import PlaceHolder from "./PlaceHolder";
 import useGlobalContextProvider from "../ContextApi";
@@ -12,12 +12,19 @@ export default function QuizzesArea({ props }) {
   const { user, setUser } = userObject;
   const router = useRouter()
   console.log(user);
+
+  useEffect(()=>{
+    if(user?.isLogged === false){
+  router.push('/');
+    }
+  })
+
   return (
     <div className="poppins mx-12 mt-10">
       <div>
-        {user.isLogged === true ? (
+        {user && user?.isLogged === true ? (
           <>
-            {allQuizzes.length === 0 ? (
+            {allQuizzes?.length === 0 ? (
               <PlaceHolder />
             ) : (
               <div className="">
@@ -52,8 +59,8 @@ export default function QuizzesArea({ props }) {
               Unlock Your Potential with Personal Quizzes
             </span>
             <button onClick={()=>{
-              setUser((prevUser)=> ({ ...prevUser, isLogged: true}));
-              router.push('/quiz-build')
+         
+              router.push('/login')
             }} className="p-4 bg-green-700 text-white rounded-md">
               Get Started Now !
             </button>

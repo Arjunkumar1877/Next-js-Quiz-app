@@ -7,7 +7,8 @@ import { useEffect } from "react";
 
 export default function Home() {
   const { quizToStartObject } = useGlobalContextProvider();
-  const { setSelectQuizToStart } = quizToStartObject;
+  const { setSelectQuizToStart, userObject } = quizToStartObject;
+  // const { user, setUser } = userObject;
 
   useEffect(()=>{
   setSelectQuizToStart(null);

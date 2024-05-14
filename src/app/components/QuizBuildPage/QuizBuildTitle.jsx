@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 import React, { useEffect, useRef, useState } from 'react'
-import useGlobalContextProvider from '@/app/ContextApi';
-import { convertToFaIcons } from '@/app/convertToFalcons';
+import useGlobalContextProvider from '../../ContextApi';
+import { convertToFaIcons } from '../../convertToFalcons';
 
 export default function QuizBuildTitle({focusProp, onChangeQuizTitle }) {
   const { openBoxToggle, selectedIconObject, selectedQuizObject  } = useGlobalContextProvider();

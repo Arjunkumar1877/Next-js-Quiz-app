@@ -1,5 +1,6 @@
  "use client"
-import useGlobalContextProvider from "@/app/ContextApi";
+// import useGlobalContextProvider from "@/app/ContextApi";
+import useGlobalContextProvider from "../ContextApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

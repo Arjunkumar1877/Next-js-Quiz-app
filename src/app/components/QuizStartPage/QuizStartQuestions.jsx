@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast,{ Toaster } from "react-hot-toast";
-const { default: useGlobalContextProvider } = require("@/app/ContextApi");
-const { useState, useEffect } = require("react");
+import useGlobalContextProvider from "../../ContextApi";
+import { useEffect, useState } from "react";
 
 export function QuizStartQuestions({ onUpdateTime }) {
   const time = 30;
@@ -176,9 +176,9 @@ export function QuizStartQuestions({ onUpdateTime }) {
         .correctAnswer
     ) {
       // updating the incorrect attempts
-      allQuizzes[indexOfQuizSelected].quizQuestions[
-        currentQuestionIndex
-      ].statistics.incorrectAttempts += 1;
+      // allQuizzes[indexOfQuizSelected].quizQuestions[
+      //   currentQuestionIndex
+      // ].statistics.incorrectAttempts += 1;
       toast.error("incorrect answer");
 
       // if the answer is incorrect, go to the next question only && if we are not at the last question
@@ -200,9 +200,9 @@ export function QuizStartQuestions({ onUpdateTime }) {
 
 
 // update the correct attempts
-    allQuizzes[indexOfQuizSelected].quizQuestions[
-      currentQuestionIndex
-    ].statistics.currentAttempts += 1;
+    // allQuizzes[indexOfQuizSelected].quizQuestions[
+    //   currentQuestionIndex
+    // ].statistics.currentAttempts += 1;
     setScore((prevState) => prevState + 1);
     toast.success('Awesome !');
 
@@ -314,24 +314,6 @@ function ScoreComponent({ quizStartParentProps }) {
     score
   } = quizStartParentProps;
 
-  function emojiIconScore() {
-    const emojiFaces = [
-      "confused-emoji.png",
-      "happy-emoji.png",
-      "very-happy-emoji.png",
-    ];
-    const result = (score / selectQuizToStart.quizQuestions.length) * 100;
-
-    if (result < 25) {
-      return emojiFaces[0];
-    }
-
-    if (result == 50) {
-      return emojiFaces[1];
-    }
-    return emojiFaces[2];
-  }
-  console.log(emojiIconScore());
 
   function tryAgainFunction() {
     setIsQuizEnded(false);
@@ -348,8 +330,8 @@ function ScoreComponent({ quizStartParentProps }) {
   return (
     <div className="flex  items-center justify-center rounded-md top-[100px] border border-gray-700 ">
       <div className="flex gap-4 items-center justify-center flex-col">
-        {/* <Image  src={`/${emojiIconScore()}`} alt="" width={100} height={100} /> */}
-        <h1 className="w-48 h-48">😁</h1>
+        {/* <Image  src={``} alt=""  /> */}
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDGSIx9dA6ybA1a0VMSB9mKTVEI7_quRDpNA&usqp=CAU" width={100} height={100} className="rounded-full w-40" alt="" srcset="" />
         <div className="flex gap-1 flex-col">
           <div className="font-bold text-2xl">Your Score</div>
           <div className="text-[22px] text-center">
@@ -366,10 +348,12 @@ function ScoreComponent({ quizStartParentProps }) {
         <div className="w-full flex gap-2 flex-col mt-3">
           <div className="flex gap-1 items-center justify-center">
             {/* <Image src={"/correct-answer.png"} alt="" width={20} height={20} /> */}
+            <img src="https://static.vecteezy.com/system/resources/previews/008/134/818/non_2x/check-mark-icon-checkmark-right-symbol-tick-sign-ok-button-correct-circle-icon-free-vector.jpg" className="w-10" />
             <span className="text-[14px]">Correct Answers: {score}</span>
           </div>
           <div className="flex gap-1 items-center justify-center">
             {/* <Image src={"/incorrect-answer.png"} alt=""  width={20} height={20} /> */}
+            <img src="https://www.pngitem.com/pimgs/m/130-1304347_transparent-right-wrong-clipart-transparent-background-wrong-png.png" className="w-10" alt="" />
             <span className="text-[14px]">
               Incorrect Answers: {selectQuizToStart?.quizQuestions.length - score}
             </span>
@@ -377,7 +361,7 @@ function ScoreComponent({ quizStartParentProps }) {
         </div>
         <span onClick={()=>{
           router.push('/');
-        }} className="text-green-700 select-none cursor-pointer text-sm mt-8">
+        }} className="text-green-700 select-none cursor-pointer text-3xl mt-8">
       Select Another Quiz
         </span>
       </div>

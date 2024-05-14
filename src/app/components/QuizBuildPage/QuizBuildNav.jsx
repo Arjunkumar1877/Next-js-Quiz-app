@@ -1,6 +1,6 @@
 'use client'
-import useGlobalContextProvider from '@/app/ContextApi'
-import { convertFaToText } from '@/app/convertFromFaToText';
+import useGlobalContextProvider from '../../ContextApi'
+import { convertFaToText } from '../../convertFromFaToText';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'

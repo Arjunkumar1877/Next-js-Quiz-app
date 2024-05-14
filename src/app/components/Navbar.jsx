@@ -1,10 +1,12 @@
 'use client'
 import React from 'react'
 import useGlobalContextProvider from '../ContextApi';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar(props) {
 const { userObject } = useGlobalContextProvider();
   const { user, setUser } = userObject;
+  const router = useRouter();
 
   async function changeTheLoginState(){
     console.log(user);
@@ -44,7 +46,7 @@ const { userObject } = useGlobalContextProvider();
         <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
 
 {
-  user.isLogged && (
+  user?.isLogged && (
     <div className="flex gap-2">
       <span>Welcome: {user.name}</span>
     </div>
@@ -52,9 +54,10 @@ const { userObject } = useGlobalContextProvider();
 }
 
          {
-          !user.isLogged ? (
+          user && user?.isLogged === false ? (
 
             <button
+            onClick={()=>  {router.push('/login')}}
             className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-green-200 bg-white px-5 py-3 text-gray-500 transition hover:text-gray-700 focus:outline-none focus:ring"
             type="button"
           >
@@ -64,7 +67,11 @@ const { userObject } = useGlobalContextProvider();
             <button
             className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-green-200 bg-green-700 px-5 py-3 text-white transition hover:text-gray-700 focus:outline-none focus:ring"
             type="button"
-          >
+         onClick={()=>{ 
+         setUser((prev)=> ({...prev, isLogged: false}));
+    localStorage.removeItem('user');
+         
+         }} >
           Logout
           </button>
           )
