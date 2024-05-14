@@ -4,6 +4,7 @@ import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 import React, { useEffect, useRef, useState } from 'react'
 import useGlobalContextProvider from '@/app/ContextApi';
+import { convertToFaIcons } from '@/app/convertToFalcons';
 
 export default function QuizBuildTitle({focusProp, onChangeQuizTitle }) {
   const { openBoxToggle, selectedIconObject, selectedQuizObject  } = useGlobalContextProvider();
@@ -32,6 +33,15 @@ export default function QuizBuildTitle({focusProp, onChangeQuizTitle }) {
       quizTitleRef.current.focus();
     }
   },[]);
+  
+  useEffect(()=>{
+    if(typeof selectedIcon.faIcon === 'string'){
+      const newFaIcon = convertToFaIcons(selectedIcon.faIcon);
+      const copySelectedIcon = { ...selectedIcon };
+      copySelectedIcon.faIcon = newFaIcon;
+      setSelectedIcon(copySelectedIcon);
+    }
+  },[])
 
   // console.log(focus)
   return (

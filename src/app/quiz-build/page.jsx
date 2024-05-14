@@ -67,7 +67,8 @@ function onChangeQuizTitle(text){
 
   const quizNavBarProps = {
     quizQuestions,
-    newQuiz
+    newQuiz,
+    setNewQuiz
   }
 
   const quizTitleProps = {

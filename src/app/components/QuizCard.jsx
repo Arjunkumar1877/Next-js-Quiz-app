@@ -4,7 +4,9 @@ import useGlobalContextProvider from "../ContextApi";
 import Image from "next/image";
 import { faCode, faDotCircle, faEllipsis, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { convertToFaIcons } from "../convertToFalcons";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 function successRate(singleQuiz) {
   let correctQuestions = 0;
@@ -25,6 +27,7 @@ function successRate(singleQuiz) {
 }
 
 export default function QuizCard({ singleQuiz }) {
+  console.log(singleQuiz.icon)
    const { quizToStartObject, selectedIconObject, dropDownToggleObject, threeDotsPositionsObject, selectedQuizObject } = useGlobalContextProvider();
    const { setDropDownToggle } = dropDownToggleObject;
    const { setSelectQuizToStart } = quizToStartObject;
@@ -59,7 +62,7 @@ export default function QuizCard({ singleQuiz }) {
         <div className="absolute cursor-pointer top-3 right-3">
           <FontAwesomeIcon onClick={openDropDownMenu} className="text-white bg-green-700" height={13} width={13} icon={faEllipsis}/> 
         </div>
-        <FontAwesomeIcon className="text-white bg-green-700 p-10 rounded-md" width={80} height={80} icon={singleQuiz.icon} />
+        <FontAwesomeIcon className="text-white bg-green-700 p-10 rounded-md" width={80} height={80} icon={convertToFaIcons(icon)} />
       </div>
       <h3 className="font-bold text-slate-950">{quizTitle}</h3>
       <p className="text-sm font-light text-gray-950">

@@ -40,12 +40,25 @@ export default function DropDown(props) {
         }
     }, [dropDownToggle])
 
-    function deleteTheQuiz(){
+    async function deleteTheQuiz(){
         const updateAllQuizzes = allQuizzes.filter((quiz)=> {
-            if(quiz.id !== selectedQuiz.id){
+            if(quiz._id !== selectedQuiz._id){
                 return quiz;
             }
         })
+
+        const res = await fetch(`http://localhost:3000/api/quizzes?id=${selectedQuiz._id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        if(!res.ok){
+            toast.error('Error while deleting the quiz..');
+            return;
+        }
+
 
         setAllQuizzes(updateAllQuizzes);
         toast.success('The quiz has been deleted sucessfully.');

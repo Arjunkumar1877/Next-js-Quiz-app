@@ -53,6 +53,7 @@ export default function QuizzesArea({ props }) {
             </span>
             <button onClick={()=>{
               setUser((prevUser)=> ({ ...prevUser, isLogged: true}));
+              router.push('/quiz-build')
             }} className="p-4 bg-green-700 text-white rounded-md">
               Get Started Now !
             </button>

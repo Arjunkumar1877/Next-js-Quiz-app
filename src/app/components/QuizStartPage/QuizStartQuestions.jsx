@@ -7,8 +7,8 @@ const { default: useGlobalContextProvider } = require("@/app/ContextApi");
 const { useState, useEffect } = require("react");
 
 export function QuizStartQuestions({ onUpdateTime }) {
-  const time = 10;
-  const { quizToStartObject, allQuizzes, setAllQuizzes } =
+  const time = 30;
+  const { quizToStartObject, allQuizzes, setAllQuizzes, userObject } =
     useGlobalContextProvider();
   const { selectQuizToStart } = quizToStartObject;
   const { quizQuestions } = selectQuizToStart;
@@ -18,7 +18,33 @@ export function QuizStartQuestions({ onUpdateTime }) {
   const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [timer, setTimer] = useState(10);
   const [score, setScore] = useState(0);
+  const { user, setUser } = userObject;
   let interval;
+
+  async function saveDataIntoDB(){
+      try {
+        
+        const id = selectQuizToStart._id;
+
+        const res = await fetch(`http://localhost:3000/api/quizzes?id=${id}`,{
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            updateQuizQuestions: allQuizzes[indexOfQuizSelected].quizQuestions
+          })
+        })
+
+        console.log(allQuizzes[indexOfQuizSelected].quizQuestions);
+        if(!res.ok){
+          toast.error('Something went wrong while saving... ');
+          return;
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+  }
 
   function startTimer() {
     clearInterval(interval);
@@ -101,7 +127,7 @@ export function QuizStartQuestions({ onUpdateTime }) {
 
   useEffect(() => {
     const quizIndexFound = allQuizzes.findIndex(
-      (quiz) => quiz.id === selectQuizToStart.id
+      (quiz) => quiz._id === selectQuizToStart._id
     );
     setIndexOfQuizSelected(quizIndexFound);
   }, []);
@@ -111,12 +137,14 @@ export function QuizStartQuestions({ onUpdateTime }) {
       quizQuestions.forEach((quizQuestion) => {
         quizQuestion.answeredResult = -1;
       });
+      saveDataIntoDB();
 
       console.log("quiz has ended...");
     }
   }, [isQuizEnded]);
 
   function selectChoiceFunction(choiceIndexClicked) {
+    // update the selected Choice variable state
     setSelectedChoice(choiceIndexClicked);
 
     const currentAllQuizzes = [...allQuizzes];
