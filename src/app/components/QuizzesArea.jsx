@@ -60,7 +60,7 @@ export default function QuizzesArea({ props }) {
             </span>
             <button onClick={()=>{
          
-              router.push('/login')
+              router.push('/signup')
             }} className="p-4 bg-green-700 text-white rounded-md">
               Get Started Now !
             </button>
